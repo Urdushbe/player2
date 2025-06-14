@@ -61,3 +61,57 @@ h1 {
   filter: blur(5px);
   /* Matnni hiralashtirish */
 }
+
+
+
+
+#rateRange {
+  width: 300px;
+  height: 10px;
+  appearance: none;
+  background: #ddd;
+  border-radius: 5px;
+  outline: none;
+  margin-top: 10px;
+}
+
+#rateRange::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #FF4500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#rateRange::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #FF4500;
+  cursor: pointer;
+}
+
+#rateValue {
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 15px;
+  vertical-align: middle;
+  color: #fff;
+}
+
+label {
+  font-size: 18px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+footer {
+  width: 100%;
+  background-color: #ddd;
+  margin: 10px;
+  padding: 20px;
+  text-align: center;
+  color:#202020
+}
