@@ -108,9 +108,8 @@ label {
 }
 
 footer {
-  width: 100%;
   background-color: #ddd;
-  margin: 10px;
+  margin-top: 10px;
   padding: 20px;
   text-align: center;
   color:#202020
