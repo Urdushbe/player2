@@ -1,22 +1,24 @@
-html {
-  transform: scale(0.95);
-  transform-origin: top left;
-  width: 105.26%;
-  height: 105.26%;
-  overflow-x: hidden;
-}
-
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #202020;
-  color: white;
+html, body {
   margin: 0;
   padding: 0;
+  background-color: #202020;
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* scroll chiqmasligi uchun */
+  font-family: 'Arial', sans-serif;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scale-wrapper {
+  transform: scale(0.95);
+  transform-origin: center center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
 }
 
 .container {
