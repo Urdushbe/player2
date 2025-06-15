@@ -89,6 +89,15 @@ function speakWord(text) {
 
 document.getElementById('nextButton').addEventListener('click', showNextWord);
 document.getElementById('prevButton').addEventListener('click', () => speakWord(words[wordOrder[currentIndex]].english));
+document.addEventListener('contextmenu', function (e) {
+  if (e.target.id === 'prevButton' || e.target.id === 'nextButton') {
+    e.preventDefault();
+    speakWord(words[wordOrder[currentIndex]].english);
+  }
+});
+
+
+
 
 document.getElementById('saveButton').addEventListener('click', () => {
   const savedWord = words[wordOrder[currentIndex]];
