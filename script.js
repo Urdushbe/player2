@@ -164,7 +164,7 @@ function populateVoiceList() {
     } else if (/male|man|minho|jinho|david|sangho|paul|daniel/i.test(voice.name)) {
       genderLabel = '👨 Erkak';
     } else {
-      genderLabel = '🔊 Nomaʼlum';
+      genderLabel = '🔊';
     }
 
     option.value = i;
