@@ -24,7 +24,7 @@ function handleFile(event) {
     }
 
     words = newWords;
-    shuffleWords(); // yangi random tartib
+    shuffleWords();
     try {
       localStorage.setItem('wordList', JSON.stringify(words));
     } catch (e) {
@@ -71,12 +71,14 @@ function displayWord() {
 
 function speakWord(text) {
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'en-US';
 
   const voiceSelect = document.getElementById('voiceSelect');
   const selectedIndex = voiceSelect.value;
   if (voices[selectedIndex]) {
     utterance.voice = voices[selectedIndex];
+    utterance.lang = voices[selectedIndex].lang; // Ovozga mos til
+  } else {
+    utterance.lang = 'en-US';
   }
 
   const rate = parseFloat(document.getElementById('rateRange').value);
@@ -155,8 +157,18 @@ function populateVoiceList() {
 
   voices.forEach((voice, i) => {
     const option = document.createElement('option');
+    let genderLabel = '';
+
+    if (/female|woman|yuna|seoyeon|susan|jina|zira|catherine/i.test(voice.name)) {
+      genderLabel = '👩‍🦰 Ayol';
+    } else if (/male|man|minho|jinho|david|sangho|paul|daniel/i.test(voice.name)) {
+      genderLabel = '👨 Erkak';
+    } else {
+      genderLabel = '🔊 Nomaʼlum';
+    }
+
     option.value = i;
-    option.textContent = `${voice.name} (${voice.lang})`;
+    option.textContent = `${voice.name} [${voice.lang}] - ${genderLabel}`;
     voiceSelect.appendChild(option);
   });
 
