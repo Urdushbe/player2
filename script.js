@@ -31,7 +31,7 @@ function handleFile(event) {
       alert("❗ localStorage haddan oshdi! Saqlab bo‘lmadi.");
     }
 
-    alert('Excel file uploaded!');
+    showCustomAlert('✔️ Excel fayldagi so‘zlar yuklandi');
     showNextWord();
   };
   reader.readAsArrayBuffer(file);
@@ -47,7 +47,7 @@ async function requestWakeLock() {
       console.log('✅ Wake Lock faollashtirildi');
 
       wakeLock.addEventListener('release', () => {
-        console.log('ℹ️ Wake Lock o‘chirildi');
+        console.log('⚠️ Wake Lock o‘chirildi');
       });
     } else {
       console.log('❌ Wake Lock API brauzeringizda ishlamaydi');
@@ -69,13 +69,13 @@ function shuffleWords() {
 
 function showNextWord() {
   if (words.length === 0) {
-    alert('No words available. Upload Excel file!');
+    showCustomAlert('⚠️ So‘zlar mavjud emas! Excel faylni yuklang');
     return;
   }
 
   currentIndex++;
   if (currentIndex >= wordOrder.length) {
-    alert("✅ Barcha so‘zlar ko‘rsatildi. Yana boshlanmoqda!");
+    showCustomAlert("✔️ Barcha so‘zlar o‘qildi. Yana boshlanmoqda!");
     shuffleWords();
     currentIndex = 0;
   }
@@ -124,12 +124,12 @@ document.addEventListener('contextmenu', function (e) {
 document.getElementById('saveButton').addEventListener('click', () => {
   const savedWord = words[wordOrder[currentIndex]];
   savedWords.push(savedWord);
-  alert(`${savedWord.english} saved!`);
+  showCustomAlert(`✔️ ${savedWord.english} saqlandi!`);
 });
 
 document.getElementById('downloadButton').addEventListener('click', () => {
   if (savedWords.length === 0) {
-    alert('No words were spared!');
+    showCustomAlert("Hech qanday so'z saqlanmagan!");
     return;
   }
   const newWorkbook = XLSX.utils.book_new();
@@ -150,7 +150,7 @@ document.addEventListener('keydown', (event) => {
     case 'ArrowDown':
       const savedWord = words[wordOrder[currentIndex]];
       savedWords.push(savedWord);
-      alert(`${savedWord.english} saved!`);
+      showCustomAlert(`✔️ ${savedWord.english} saqlandi!`);
       break;
     case 'ArrowUp':
       if (savedWords.length > 0) {
@@ -160,7 +160,7 @@ document.addEventListener('keydown', (event) => {
         XLSX.utils.book_append_sheet(newWorkbook, newSheet, 'Saved Words');
         XLSX.writeFile(newWorkbook, 'SavedVocabulary.xlsx');
       } else {
-        alert('No words were spared!');
+        showCustomAlert("Hech qanday so'z saqlanmagan!");
       }
       break;
   }
@@ -257,9 +257,11 @@ function toggleAutoNext() {
       showNextWord();
     }, 5000); // 5 sekundda avtomatik o'tadi
     requestWakeLock(); // <<< 👈 bu yerga joylashtiring
+    showCustomAlert("✔️ So'zlar har 5 sekuntda avtomatik o'qiladi");
   } else {
     button.textContent = '▶️ Auto ON';
     clearInterval(autoNextInterval);
+    showCustomAlert("ℹ️ Avtomatik o'qish to'xtatildi");
   }
 }
 
@@ -283,7 +285,7 @@ function updateProgress() {
 
 function showPreviousWord() {
   if (words.length === 0) {
-    alert('No words available. Upload Excel file!');
+    showCustomAlert("⛔ So'zlar mavjud emas! Excel faylni yuklang");
     return;
   }
 
