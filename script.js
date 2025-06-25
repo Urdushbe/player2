@@ -61,6 +61,7 @@ function showNextWord() {
 
   displayWord();
   speakWord(words[wordOrder[currentIndex]].english);
+  updateProgress(); // 👈 YANGI QATOR – bu yerga qo‘shing!
 }
 
 function displayWord() {
@@ -218,4 +219,68 @@ window.addEventListener('load', () => {
   }
 });
 
+
+let autoNextEnabled = false;
+let autoNextInterval = null;
+
+function toggleAutoNext() {
+  autoNextEnabled = !autoNextEnabled;
+
+  const button = document.getElementById('autoToggleButton');
+  if (autoNextEnabled) {
+    button.textContent = '⏸️ Auto OFF';
+    autoNextInterval = setInterval(() => {
+      showNextWord();
+    }, 5000); // 5 sekundda avtomatik o'tadi
+  } else {
+    button.textContent = '▶️ Auto ON';
+    clearInterval(autoNextInterval);
+  }
+}
+
+document.getElementById('autoToggleButton').addEventListener('click', toggleAutoNext);
+
+
 speechSynthesis.onvoiceschanged = populateVoiceList;
+
+
+function updateProgress() {
+  const progress = document.getElementById('wordProgress');
+  const display = document.getElementById('wordCountDisplay');
+  const total = wordOrder.length;
+  const current = currentIndex + 1;
+
+  progress.max = total;
+  progress.value = current;
+  display.textContent = `${current} / ${total}`;
+}
+
+
+function showPreviousWord() {
+  if (words.length === 0) {
+    alert('No words available. Upload Excel file!');
+    return;
+  }
+
+  if (currentIndex > 0) {
+    currentIndex--;
+    displayWord();
+    speakWord(words[wordOrder[currentIndex]].english);
+    updateProgress();
+  } else {
+    showCustomAlert("⛔ Siz birinchi so‘zdasiz.");
+  }
+}
+document.getElementById('backButton').addEventListener('click', showPreviousWord);
+
+
+function showCustomAlert(message) {
+  const alertBox = document.getElementById('customAlert');
+  alertBox.textContent = message;
+  alertBox.style.display = 'block';
+
+  setTimeout(() => {
+    alertBox.style.display = 'none';
+  }, 2500); // 2.5 soniyadan keyin avtomatik yo‘q bo‘ladi
+}
+

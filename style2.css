@@ -72,6 +72,23 @@ h1 {
   /* Matnni hiralashtirish */
 }
 
+.custom-alert {
+  position: fixed;
+  top: 20px; /* yuqoridan 20px past */
+  left: 50%; /* o‘rtaga joylash */
+  transform: translateX(-50%); /* gorizontal markazlash */
+  background-color: #ffcccc;
+  color: #660000;
+  padding: 10px 20px;
+  border: 1px solid #cc0000;
+  border-radius: 5px;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  display: none;
+  z-index: 9999;
+  font-size: 16px;
+}
+
 
 
 
