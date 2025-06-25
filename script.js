@@ -37,6 +37,27 @@ function handleFile(event) {
   reader.readAsArrayBuffer(file);
 }
 
+
+let wakeLock = null;
+
+async function requestWakeLock() {
+  try {
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+      console.log('✅ Wake Lock faollashtirildi');
+
+      wakeLock.addEventListener('release', () => {
+        console.log('ℹ️ Wake Lock o‘chirildi');
+      });
+    } else {
+      console.log('❌ Wake Lock API brauzeringizda ishlamaydi');
+    }
+  } catch (err) {
+    console.error('Wake Lock xatosi:', err);
+  }
+}
+
+
 function shuffleWords() {
   wordOrder = [...Array(words.length).keys()];
   for (let i = wordOrder.length - 1; i > 0; i--) {
@@ -235,6 +256,7 @@ function toggleAutoNext() {
     autoNextInterval = setInterval(() => {
       showNextWord();
     }, 5000); // 5 sekundda avtomatik o'tadi
+    requestWakeLock(); // <<< 👈 bu yerga joylashtiring
   } else {
     button.textContent = '▶️ Auto ON';
     clearInterval(autoNextInterval);
