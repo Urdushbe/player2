@@ -217,6 +217,9 @@ window.addEventListener('load', () => {
     document.getElementById('rateRange').value = savedRate;
     document.getElementById('rateValue').textContent = savedRate;
   }
+
+    // 👉 Wake Lock chaqiruvi shu yerda:
+  requestWakeLock();
 });
 
 
