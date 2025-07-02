@@ -70,12 +70,13 @@ function shuffleWords() {
 function showNextWord() {
   if (words.length === 0) {
     showCustomAlert('⚠️ So‘zlar mavjud emas! Excel faylni yuklang');
+    document.getElementById('excel1')?.scrollIntoView({ behavior: 'smooth' });
     return;
   }
 
   currentIndex++;
   if (currentIndex >= wordOrder.length) {
-    showCustomAlert("✔️ Barcha so‘zlar o‘qildi. Yana boshlanmoqda!");
+    showCustomAlert("✔️ Barcha so‘zlar o‘qildi va boshidan boshlandi!");
     shuffleWords();
     currentIndex = 0;
   }
@@ -93,7 +94,6 @@ function displayWord() {
 
 function speakWord(text) {
   const utterance = new SpeechSynthesisUtterance(text);
-
   const voiceSelect = document.getElementById('voiceSelect');
   const selectedIndex = voiceSelect.value;
   if (voices[selectedIndex]) {
@@ -239,7 +239,7 @@ window.addEventListener('load', () => {
     document.getElementById('rateValue').textContent = savedRate;
   }
 
-    // 👉 Wake Lock chaqiruvi shu yerda:
+  // 👉 Wake Lock chaqiruvi shu yerda:
   requestWakeLock();
 });
 
@@ -252,16 +252,22 @@ function toggleAutoNext() {
 
   const button = document.getElementById('autoToggleButton');
   if (autoNextEnabled) {
-    button.textContent = '⏸️ Auto OFF';
+
+    if (words.length === 0) {
+      showCustomAlert('⚠️ So‘zlar mavjud emas! Excel faylni yuklang');
+      document.getElementById('excel1')?.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    button.textContent = '⏸️';
     autoNextInterval = setInterval(() => {
       showNextWord();
     }, 5000); // 5 sekundda avtomatik o'tadi
     requestWakeLock(); // <<< 👈 bu yerga joylashtiring
-    showCustomAlert("✔️ So'zlar har 5 sekuntda avtomatik o'qiladi");
+    showCustomAlert("So'zlar har 5 sekuntda avtomatik o'qiladi");
   } else {
-    button.textContent = '▶️ Auto ON';
+    button.textContent = '▶️';
     clearInterval(autoNextInterval);
-    showCustomAlert("ℹ️ Avtomatik o'qish to'xtatildi");
   }
 }
 
@@ -285,6 +291,7 @@ function updateProgress() {
 
 function showPreviousWord() {
   if (words.length === 0) {
+    document.getElementById('excel1')?.scrollIntoView({ behavior: 'smooth' });
     showCustomAlert("⛔ So'zlar mavjud emas! Excel faylni yuklang");
     return;
   }

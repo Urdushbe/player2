@@ -8,44 +8,136 @@
   <title>Smart Player</title>
   <link rel="stylesheet" href="style3.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  
+
 </head>
 
 <body>
+  <span id="home"></span>
   <div id="customAlert" class="custom-alert">⛔ Alert uchun</div>
-  <div class="scale-wrapper">
+  <div class="scale-wrapper pad10">
     <div class="container">
       <h1>Smart Player</h1>
-      <input type="file" id="fileInput" accept=".xlsx" />
-      <a href="help.html"><button class="button">help</button></a>
 
       <div class="text-display" id="textDisplay">
         <p id="englishWord" style="font-size: 24px; font-weight: bold;">Language</p><br>
         <p id="translation" style="color: #AAAAAA;">Translation</p>
-        <i id="eye-icon" style="font-size: 25px; color: #AAAAAA;" class="bi bi-eye-slash-fill icon" onclick="toggleBlur()"></i>
+        <i id="eye-icon" style="font-size: 25px; color: #AAAAAA;" class="bi bi-eye-slash-fill icon"
+          onclick="toggleBlur()"></i>
       </div>
 
-      <div>
-        <button class="big_button" id="backButton">◀️ Previous</button>
-        <button class="big_button" id="prevButton">🔁 Replay</button>
-        <button class="big_button" id="nextButton">▶️ Next</button>
-      </div>
 
-      <button class="button" id="autoToggleButton">▶️ Auto ON</button>
-      <button class="button" id="saveButton">🔽 Save</button>
-      <button class="button" id="downloadButton">File Download</button><br><br>
-
-      <label for="wordProgress">📊 So‘zlar:</label><br><br>
-      <input type="range" id="wordProgress" min="0" max="100" value="0" disabled>
+      <input type="range" id="wordProgress" min="0" max="100" value="0">
       <span id="wordCountDisplay">0 / 0</span><br><br>
 
-      <label for="voiceSelect">🔊 Ovoz tili:</label><br><br>
+      <!-- From Uiverse.io by Na3ar-17 -->
+      <div class="container-player">
+        <label class="switch">
+          <input type="checkbox" id="autoToggleButton" />
+          <span class="slider">
+            <span class="ball">
+              <span class="icon">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                  width="25" height="25" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 18V6l8 6-8 6Z"></path>
+                </svg>
+              </span>
+            </span>
+          </span>
+        </label>
+      </div>
+      <br>
+
+      <div>
+        <button class="big_button" id="backButton">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 32 32"><path fill="currentColor" d="M6 5a1 1 0 0 0-2 0v22a1 1 0 1 0 2 0V5Zm22.003 1.504c0-2.002-2.236-3.192-3.897-2.073l-14.003 9.432A2.5 2.5 0 0 0 10.09 18l14.003 9.56c1.66 1.132 3.91-.056 3.91-2.066V6.506Zm-2.78-.414a.5.5 0 0 1 .78.414v18.992a.5.5 0 0 1-.782.412L11.218 16.35a.5.5 0 0 1 .002-.828L25.224 6.09Z"/></svg>
+
+
+        </button>
+        <button class="big_button" id="prevButton">
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 56 56">
+            <path fill="currentColor"
+              d="M47.937 49.384c.737.497 1.713.298 2.29-.518C53.87 43.65 56 36.941 56 29.834c0-7.107-2.15-13.835-5.773-19.051c-.577-.816-1.553-1.015-2.29-.498c-.756.518-.876 1.513-.298 2.35c3.205 4.717 5.196 10.77 5.196 17.2s-1.931 12.561-5.196 17.2c-.578.816-.458 1.811.298 2.349M22.715 48.01c1.353 0 2.329-.995 2.329-2.33V13.929c0-1.334-.976-2.448-2.37-2.448c-.975 0-1.612.477-2.687 1.433l-9.356 8.301a.694.694 0 0 1-.498.18H4.22c-2.826 0-4.22 1.413-4.22 4.42v7.922c0 3.006 1.394 4.42 4.22 4.42h5.913c.199 0 .378.06.498.179l9.356 8.381c.976.876 1.752 1.294 2.728 1.294m17.2-4.061c.776.517 1.732.318 2.289-.478c2.628-3.663 4.16-8.54 4.16-13.637c0-5.116-1.512-9.993-4.16-13.656c-.577-.777-1.513-.976-2.29-.458c-.756.518-.875 1.493-.278 2.35c2.17 3.184 3.524 7.365 3.524 11.764c0 4.4-1.314 8.62-3.524 11.766c-.577.856-.478 1.831.279 2.349m-18.355-.14c-.1 0-.22-.06-.339-.179l-8.819-7.943c-.477-.438-.875-.537-1.413-.537h-6.63c-.776 0-1.154-.359-1.154-1.155v-8.44c0-.777.378-1.155 1.155-1.155h6.629c.537 0 .916-.08 1.413-.538l8.82-8.003c.099-.08.218-.159.338-.159c.179 0 .279.12.279.279v27.53c0 .18-.1.298-.28.298m10.412-5.235c.676.478 1.652.318 2.23-.458c1.552-2.09 2.487-5.156 2.487-8.282c0-3.125-.955-6.17-2.488-8.301c-.577-.776-1.533-.936-2.23-.458c-.875.577-.975 1.593-.338 2.469c1.155 1.552 1.851 3.921 1.851 6.29c0 2.37-.736 4.738-1.87 6.311c-.598.856-.499 1.832.357 2.429" />
+          </svg>
+
+
+
+          </label>
+
+
+
+
+        </button>
+
+        <button class="big_button" id="nextButton">
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 16 16">
+            <path fill="currentColor"
+              d="M14 2.5a.5.5 0 1 0-1 0v11a.5.5 0 0 0 1 0v-11ZM2 3.002a1 1 0 0 1 1.579-.816l7 4.963a1 1 0 0 1 .006 1.628l-7 5.037A1 1 0 0 1 2 13.003V3.002Zm8 4.963L3 3.002v10l7-5.037Z" />
+          </svg>
+
+
+        </button>
+      </div>
+
+
+
+      <hr>
+      <button class="button" id="saveButton">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="currentColor" d="M20.496 5.627A2.25 2.25 0 0 1 22 7.75v10A4.25 4.25 0 0 1 17.75 22h-10a2.25 2.25 0 0 1-2.123-1.504l2.097.004H17.75a2.75 2.75 0 0 0 2.75-2.75v-10l-.004-.051V5.627ZM17.246 2a2.25 2.25 0 0 1 2.25 2.25v12.997a2.25 2.25 0 0 1-2.25 2.25H4.25A2.25 2.25 0 0 1 2 17.247V4.25A2.25 2.25 0 0 1 4.25 2h12.997Zm0 1.5H4.25a.75.75 0 0 0-.75.75v12.997c0 .414.336.75.75.75h12.997a.75.75 0 0 0 .75-.75V4.25a.75.75 0 0 0-.75-.75ZM10.75 6.75a.75.75 0 0 1 .75.75V10H14a.75.75 0 0 1 0 1.5h-2.5V14a.75.75 0 0 1-1.5 0v-2.5H7.5a.75.75 0 0 1 0-1.5H10V7.5a.75.75 0 0 1 .75-.75Z"/></svg>
+ 
+      </button>
+      <button class="button" id="downloadButton">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"><path fill="currentColor" d="M18.22 20.75H5.78A2.64 2.64 0 0 1 3.25 18v-3a.75.75 0 0 1 1.5 0v3a1.16 1.16 0 0 0 1 1.25h12.47a1.16 1.16 0 0 0 1-1.25v-3a.75.75 0 0 1 1.5 0v3a2.64 2.64 0 0 1-2.5 2.75Z"/><path fill="currentColor" d="M12 15.75a.74.74 0 0 1-.53-.22l-4-4a.75.75 0 0 1 1.06-1.06L12 13.94l3.47-3.47a.75.75 0 0 1 1.06 1.06l-4 4a.74.74 0 0 1-.53.22Z"/><path fill="currentColor" d="M12 15.75a.76.76 0 0 1-.75-.75V4a.75.75 0 0 1 1.5 0v11a.76.76 0 0 1-.75.75Z"/></svg>
+      
+      </button>
+      <a href="#excel1" class="button">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 2048 2048"><path fill="currentColor" d="M1783 988v18q0 9 1 18v18q0 9-1 18l259 161l-159 383l-297-68q-24 26-50 50l68 297l-383 159l-161-259h-18q-9 0-18 1h-18q-9 0-18-1l-161 259l-383-159l68-297q-26-24-50-50l-297 68L6 1221l259-161v-18q0-9-1-18v-18q0-9 1-18L6 827l159-383l297 68q24-26 50-50l-68-297L827 6l161 259h18q9 0 18-1h18q9 0 18 1L1221 6l383 159l-68 297q26 24 50 50l297-68l159 383l-259 161zm-117 130q2-24 4-47t2-48q0-23-2-47t-4-47l236-147l-86-208l-271 63q-31-38-63-70t-71-64l63-271l-208-86l-148 236q-23-2-47-4t-47-2q-24 0-47 2t-48 4L782 146l-208 86l63 271q-38 31-70 63t-64 71l-271-63l-86 208l236 148q-2 24-4 47t-2 48q0 23 2 47t4 47l-236 147l86 208l271-63q31 38 63 70t71 64l-63 271l208 86l148-236q23 2 47 4t47 2q24 0 47-2t48-4l147 236l208-86l-63-271q38-31 70-63t64-71l271 63l86-208l-236-148zm-642-470q78 0 146 29t120 81t80 119t30 147q0 78-29 146t-81 120t-119 80t-147 30q-78 0-146-29t-120-81t-80-119t-30-147q0-78 29-146t81-120t119-80t147-30zm0 640q55 0 103-20t84-57t56-84t21-103q0-55-20-103t-57-84t-84-56t-103-21q-55 0-103 20t-84 57t-56 84t-21 103q0 55 20 103t57 84t84 56t103 21z"/></svg>
+
+      </a>
+    </div>
+  </div>
+  <div class="height100"></div>
+  <div class="scale-wrapper">
+    <div class="container">
+      <div class="title h1" id="excel1">⚙️ Settings</div>
+    </div>
+  </div>
+
+  <div class="scale-wrapper pad10">
+    <div class="container">
+      <h2 for="rateRange">📁 Excel faylni yuklash:</h2>
+      <div class="input_container">
+        <label for="fileInput" class="custom-file-button">Faylni yuklash</label>
+        <span class="file-name" id="fileName">tanlanmagan</span>
+        <input type="file" id="fileInput" accept=".xlsx" />
+      </div><br><br>
+
+      <h2 for="voiceSelect">🔊 Ovoz tilini tanlash:</h2>
       <select id="voiceSelect"></select><br><br>
 
-      <label for="rateRange">⚙️ Ovoz tezligi:</label><br><br>
+      <h2 for="rateRange">⚙️ Ovoz tezligi:</h2>
       <input type="range" id="rateRange" min="0.5" max="1.5" step="0.1" value="1">
       <span id="rateValue">1</span>
+
+
+
+      <br><br><br>
+      <a href="#home" class="button">Orqaga qaytish</a>
     </div>
+  </div>
+  <div class="height100"></div>
+
+
+
+
+
+
+
+  </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>

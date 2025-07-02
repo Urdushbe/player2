@@ -17,11 +17,70 @@ body {
   justify-content: center;
 }
 
-.scale-wrapper {
+
+
+.height100 {
+  height: 1000px;
+}
+
+.title {
+  background-color: #FF4500;
+  padding: 20px;
+ 
+  font-size: 2em;
+  margin-bottom: 20px;
+
+}
+
+.spanmargin {
+  margin-top: 10px;
+}
+
+
+.input_container {
+  display: inline-block;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+#fileInput {
+  display: none;
+}
+
+.custom-file-button {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  padding: 10px 15px;
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.3s;
+  border-right: 1px solid #e5e5e5;
+}
+
+.custom-file-button:hover {
+  background-color: #eee;
+}
+
+.file-name {
+  display: inline-block;
   padding: 10px;
+  color: #888;
+}
+
+
+
+
+.scale-wrapper {
   width: 100%;
   max-width: 700px;
   margin: 0 auto;
+}
+
+.pad10 {
+  padding: 10px;
+  padding-top: 0;
 }
 
 .container {
@@ -52,13 +111,17 @@ h1 {
   cursor: pointer;
   margin: 5px;
   font-size: 1rem;
+  text-align: center; /* Tugmalar markazlashadi */
+  display: inline-block;
+  text-decoration: none;
+  box-sizing: border-box; /* O‘lchamni to‘liq hisoblash */
 }
 
 .big_button {
   padding: 20px;
   font-size: 1.2rem;
-  display: inline-block;
-  width: calc(33% - 12px);
+  width: calc(33% - 12px); /* 3ta tugma bir qatorda */
+  margin-right: 5px; /* Tugmalar orasidagi masofa */
 }
 
 .button:hover,
@@ -70,24 +133,140 @@ h1 {
   filter: blur(5px);
 }
 
+a.button {
+  text-decoration: none;
+  font-size: 1.1rem;
+  display: inline-block; /* Agar havola bo‘lsa, uni tugma kabi qilish */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* From Uiverse.io by Na3ar-17 */ 
+.container-player {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #fff;
+}
+
+.switch {
+  font-size: 0.875rem;
+  position: relative;
+  display: inline-block;
+  width: 9em;
+  height: 2.6em;
+}
+
+.switch input {
+  display: none;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch input:checked + .slider .ball {
+  box-shadow: 10px 10px 100px #7f8996;
+}
+
+.switch input:checked + .slider .title {
+  left: 40%;
+}
+
+.switch input:checked + .slider {
+  background-color: #FF4500;
+}
+
+.switch input:focus + .slider {
+  box-shadow: 10px 10px 100px #7f8996;
+}
+
+.switch input:checked + .slider .ball {
+  left: 72%;
+  transform: rotate(360deg);
+  box-shadow: none;
+  outline: 6px solid rgba(255, 255, 255, 0.278);
+}
+
+.switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #313033;
+  transition: all 0.4s;
+  border-radius: 30px;
+}
+
+.switch .slider .title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 600;
+  transition: all 0.4s;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.switch .slider .ball {
+  background-color: #fff;
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  position: absolute;
+  left: -1px;
+  transition: 0.4s;
+}
+
+.switch .slider .ball .icon {
+  position: absolute;
+  top: 58%;
+  left: 53%;
+  transform: translate(-50%, -50%);
+  color: #313033;
+  font-size: 12px;
+}
+
+
+
 .custom-alert {
   position: fixed;
-  top: 20px;
+  top: 30px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #ffcccc;
-  color: #660000;
-  padding: 10px 20px;
-  border: 1px solid #cc0000;
-  border-radius: 5px;
-  font-weight: bold;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background-color: #fcd914; /* pastel sariq */
+  color: black;
+  padding: 18px 30px;
+  border: 1px solid white;
+  border-radius: 10px;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   display: none;
   z-index: 9999;
-  font-size: 16px;
-  max-width: 90%;
+  font-size: 1.05rem;
+  max-width: 95%;
   text-align: center;
+  line-height: 1.5;
+  animation: fadeSlide 0.3s ease;
 }
+
+
 
 #rateRange,
 #wordProgress {
@@ -121,7 +300,7 @@ h1 {
   cursor: pointer;
 }
 
-#rateValue,
+
 #wordCountDisplay {
   font-size: 1.2rem;
   font-weight: bold;
@@ -129,6 +308,18 @@ h1 {
   vertical-align: middle;
   color: #fff;
 }
+
+#rateValue{
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-left: 10px;
+  vertical-align: middle;
+  color: #fff;
+}
+
+
+
+
 
 /* Responsive for phones */
 @media screen and (max-width: 300px) {
