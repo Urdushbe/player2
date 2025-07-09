@@ -25,8 +25,7 @@ body {
 
 .title {
   background-color: #FF4500;
-  padding: 20px;
- 
+  padding: 10px;
   font-size: 2em;
   margin-bottom: 20px;
 
@@ -111,17 +110,21 @@ h1 {
   cursor: pointer;
   margin: 5px;
   font-size: 1rem;
-  text-align: center; /* Tugmalar markazlashadi */
+  text-align: center;
+  /* Tugmalar markazlashadi */
   display: inline-block;
   text-decoration: none;
-  box-sizing: border-box; /* O‘lchamni to‘liq hisoblash */
+  box-sizing: border-box;
+  /* O‘lchamni to‘liq hisoblash */
 }
 
 .big_button {
   padding: 20px;
   font-size: 1.2rem;
-  width: calc(33% - 12px); /* 3ta tugma bir qatorda */
-  margin-right: 5px; /* Tugmalar orasidagi masofa */
+  width: calc(33% - 12px);
+  /* 3ta tugma bir qatorda */
+  margin-right: 5px;
+  /* Tugmalar orasidagi masofa */
 }
 
 .button:hover,
@@ -136,7 +139,8 @@ h1 {
 a.button {
   text-decoration: none;
   font-size: 1.1rem;
-  display: inline-block; /* Agar havola bo‘lsa, uni tugma kabi qilish */
+  display: inline-block;
+  /* Agar havola bo‘lsa, uni tugma kabi qilish */
 }
 
 
@@ -150,7 +154,7 @@ a.button {
 
 
 
-/* From Uiverse.io by Na3ar-17 */ 
+/* From Uiverse.io by Na3ar-17 */
 .container-player {
   display: flex;
   justify-content: center;
@@ -177,23 +181,23 @@ a.button {
   height: 0;
 }
 
-.switch input:checked + .slider .ball {
+.switch input:checked+.slider .ball {
   box-shadow: 10px 10px 100px #7f8996;
 }
 
-.switch input:checked + .slider .title {
+.switch input:checked+.slider .title {
   left: 40%;
 }
 
-.switch input:checked + .slider {
+.switch input:checked+.slider {
   background-color: #FF4500;
 }
 
-.switch input:focus + .slider {
+.switch input:focus+.slider {
   box-shadow: 10px 10px 100px #7f8996;
 }
 
-.switch input:checked + .slider .ball {
+.switch input:checked+.slider .ball {
   left: 72%;
   transform: rotate(360deg);
   box-shadow: none;
@@ -248,27 +252,37 @@ a.button {
 .custom-alert {
   position: fixed;
   top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #fcd914; /* pastel sariq */
+  left: 10px;
+  right: 10px;
+  max-width: 800px;
+  margin: 0 auto;
+
+  background-color: #fcd914;
   color: black;
-  padding: 18px 30px;
+  padding: 16px 24px;
   border: 1px solid white;
   border-radius: 10px;
   font-weight: 500;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   display: none;
   z-index: 9999;
-  font-size: 1.05rem;
-  max-width: 95%;
+  font-size: 16px;
   text-align: center;
-  line-height: 1.5;
+  line-height: 24px;
   animation: fadeSlide 0.3s ease;
+
+  word-break: keep-all;   /* ✅ So‘zlar to‘liq bo‘lib qoladi */
+  white-space: normal;    /* ✅ Joy yetmasa qatorga o‘tadi */
 }
 
 
 
+
+
+
+
 #rateRange,
+#autoDelayRange,
 #wordProgress {
   width: 100%;
   max-width: 400px;
@@ -281,6 +295,7 @@ a.button {
 }
 
 #rateRange::-webkit-slider-thumb,
+#autoDelayRange::-webkit-slider-thumb,
 #wordProgress::-webkit-slider-thumb {
   appearance: none;
   width: 20px;
@@ -309,7 +324,15 @@ a.button {
   color: #fff;
 }
 
-#rateValue{
+#rateValue {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-left: 10px;
+  vertical-align: middle;
+  color: #fff;
+}
+
+#autoDelayValue {
   font-size: 1.2rem;
   font-weight: bold;
   margin-left: 10px;
