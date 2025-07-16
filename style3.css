@@ -17,6 +17,131 @@ body {
   justify-content: center;
 }
 
+.manual-word-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: nowrap;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.manual-word-item .edit-input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.manual-word-item .edit-button {
+  width: 36px;
+  height: 36px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manual-word-item .edit-button:hover {
+  background-color: #0056b3;
+}
+
+.manual-word-item svg {
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+
+
+.saved-word-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  transition: all 0.2s ease-in-out;
+}
+
+.saved-word-card:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.01);
+}
+
+.word-english {
+  font-weight: bold;
+  color: #333;
+}
+
+.word-translation {
+  color: #666;
+}
+
+
+
+.word-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.word-item input {
+  padding: 4px;
+  width: 120px;
+}
+
+.word-item button {
+  padding: 3px 6px;
+  font-size: 14px;
+}
+
+
+
+
+.responsive-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 10px auto;
+  /* markazga joylashish uchun */
+  border-radius: 10px;
+  /* ixtiyoriy: yumaloqlik */
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+  /* ixtiyoriy: soyabon effekt */
+}
+
+
+.guide-container {
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #202020;
+  border-left: 5px solid #FF4500;
+  border-radius: 8px;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.guide-list-left {
+  list-style-position: outside;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.guide-list-left li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+  text-align: left;
+}
 
 
 .height100 {
@@ -271,8 +396,10 @@ a.button {
   line-height: 24px;
   animation: fadeSlide 0.3s ease;
 
-  word-break: keep-all;   /* ✅ So‘zlar to‘liq bo‘lib qoladi */
-  white-space: normal;    /* ✅ Joy yetmasa qatorga o‘tadi */
+  word-break: keep-all;
+  /* ✅ So‘zlar to‘liq bo‘lib qoladi */
+  white-space: normal;
+  /* ✅ Joy yetmasa qatorga o‘tadi */
 }
 
 

@@ -7,64 +7,36 @@ let lastSpeakSuccess = true;
 let warnedLanguages = new Set(); // ✅ globalda
 let voicesLoaded = false;
 
-document.getElementById('fileInput').addEventListener('change', function () {
-  const file = this.files[0];
-  if (file) {
-    document.getElementById('fileName').textContent = file.name;
-  } else {
-    document.getElementById('fileName').textContent = 'tanlanmagan';
-  }
-});
-
-
-document.getElementById('fileInput').addEventListener('change', handleFile);
-
-function handleFile(event) {
-  const file = event.target.files[0];
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    const data = new Uint8Array(e.target.result);
-    const workbook = XLSX.read(data, { type: 'array' });
-    const sheetName = workbook.SheetNames[0];
-    const sheet = workbook.Sheets[sheetName];
-    const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-    const newWords = jsonData.filter(row => row[1] && row[2]).map(row => ({ english: row[1], translation: row[2] }));
-
-    if (newWords.length > 3000) {
-      alert("⛔ Juda ko‘p so‘z yuklanyapti! Iltimos, 3000 tagacha yuklang.");
-      return;
-    }
-
-    words = newWords;
-    shuffleWords();
-    try {
-      localStorage.setItem('wordList', JSON.stringify(words));
-    } catch (e) {
-      alert("❗ localStorage haddan oshdi! Saqlab bo‘lmadi.");
-    }
-
-    showCustomAlert('✔️ So‘zlar yuklandi. Sozlamadan ovoz tilini tanlashingiz mumkin!');
 
 
 
-    if (!localStorage.getItem('selectedVoiceIndex') && words.length > 0) {
-      const firstLang = detectLanguage(words[0].english);
-      const matchedVoice = voices.find(v => v.lang.toLowerCase().includes(firstLang));
-      if (matchedVoice) {
-        const index = voices.indexOf(matchedVoice);
-        document.getElementById('voiceSelect').value = index;
-        localStorage.setItem('selectedVoiceIndex', index);
-        showCustomAlert(`🔊 Ovoz avtomatik tanlandi: ${matchedVoice.name} - buni o'zgartirishingiz ham mumkin`);
-      }
-    }
 
-    showNextWord();
-
-
+function getReadableLanguageName(code) {
+  const map = {
+    'en': 'English',
+    'ru': 'Russian',
+    'uz': 'Uzbek',
+    'ko': 'Korean',
+    'ja': 'Japanese',
+    'zh': 'Chinese',
+    'tr': 'Turkish',
+    'ar': 'Arabic',
+    'fr': 'French',
+    'de': 'German',
+    'es': 'Spanish',
+    'it': 'Italian',
+    'pt': 'Portuguese',
+    'hi': 'Hindi',
+    'id': 'Indonesian'
   };
-  reader.readAsArrayBuffer(file);
+
+  return map[code] || `🌐 ${code.toUpperCase()}`;
 }
+
+
+
+
+
 
 
 let wakeLock = null;
@@ -216,52 +188,6 @@ document.addEventListener('contextmenu', function (e) {
 
 
 
-
-document.getElementById('saveButton').addEventListener('click', () => {
-  const savedWord = words[wordOrder[currentIndex]];
-  savedWords.push(savedWord);
-  showCustomAlert(`✔️ ${savedWord.english} saqlandi!`);
-});
-
-document.getElementById('downloadButton').addEventListener('click', () => {
-  if (savedWords.length === 0) {
-    showCustomAlert("Hech qanday so'z saqlanmagan!");
-    return;
-  }
-  const newWorkbook = XLSX.utils.book_new();
-  const newSheetData = savedWords.map((word, index) => [index + 1, word.english, word.translation]);
-  const newSheet = XLSX.utils.aoa_to_sheet(newSheetData);
-  XLSX.utils.book_append_sheet(newWorkbook, newSheet, 'Saved Words');
-  XLSX.writeFile(newWorkbook, 'SavedVocabulary.xlsx');
-});
-
-document.addEventListener('keydown', (event) => {
-  switch (event.key) {
-    case 'ArrowRight':
-      showNextWord();
-      break;
-    case 'ArrowLeft':
-      speakWord(words[wordOrder[currentIndex]].english);
-      break;
-    case 'ArrowDown':
-      const savedWord = words[wordOrder[currentIndex]];
-      savedWords.push(savedWord);
-      showCustomAlert(`✔️ ${savedWord.english} saqlandi!`);
-      break;
-    case 'ArrowUp':
-      if (savedWords.length > 0) {
-        const newWorkbook = XLSX.utils.book_new();
-        const newSheetData = savedWords.map((word, index) => [index + 1, word.english, word.translation]);
-        const newSheet = XLSX.utils.aoa_to_sheet(newSheetData);
-        XLSX.utils.book_append_sheet(newWorkbook, newSheet, 'Saved Words');
-        XLSX.writeFile(newWorkbook, 'SavedVocabulary.xlsx');
-      } else {
-        showCustomAlert("⛔ Hech qanday so'z saqlanmagan!");
-      }
-      break;
-  }
-});
-
 function toggleBlur() {
   const text = document.getElementById("translation");
   const icon = document.getElementById("eye-icon");
@@ -282,20 +208,20 @@ function populateVoiceList() {
   const voiceSelect = document.getElementById('voiceSelect');
   voiceSelect.innerHTML = '';
 
-  voices.forEach((voice, i) => {
+  const langCount = {};
+  const sortedVoices = voices.slice().sort((a, b) => {
+    return a.lang.localeCompare(b.lang); // tartiblash
+  });
+
+  sortedVoices.forEach((voice) => {
+    const langCode = voice.lang.slice(0, 2).toLowerCase();
+    const readable = getReadableLanguageName(langCode);
+    langCount[readable] = (langCount[readable] || 0) + 1;
+
+    const label = `${readable} ${langCount[readable]} [${voice.lang}]`;
     const option = document.createElement('option');
-    let genderLabel = '';
-
-    if (/female|woman|yuna|seoyeon|susan|jina|zira|catherine/i.test(voice.name)) {
-      genderLabel = '👩‍🦰 Ayol';
-    } else if (/male|man|minho|jinho|david|sangho|paul|daniel/i.test(voice.name)) {
-      genderLabel = '👨 Erkak';
-    } else {
-      genderLabel = '🔊';
-    }
-
-    option.value = i;
-    option.textContent = `${voice.name} [${voice.lang}] - ${genderLabel}`;
+    option.value = voices.indexOf(voice); // 👈 MUHIM: asl `voices[]` dagi index
+    option.textContent = label;
     voiceSelect.appendChild(option);
   });
 
@@ -305,12 +231,20 @@ function populateVoiceList() {
   }
 
   voicesLoaded = true;
-
 }
+
+
+
 
 document.getElementById('voiceSelect').addEventListener('change', (e) => {
   localStorage.setItem('selectedVoiceIndex', e.target.value);
+
+  // 🔊 Hozirgi so‘zni ovoz bilan qayta eshittirish
+  if (words.length > 0 && currentIndex >= 0) {
+    speakWord(words[wordOrder[currentIndex]].english);
+  }
 });
+
 
 document.getElementById('rateRange').addEventListener('input', function () {
   document.getElementById('rateValue').textContent = this.value;
@@ -439,8 +373,140 @@ function showCustomAlert(message) {
 
   setTimeout(() => {
     alertBox.style.display = 'none';
-  }, 4000); // 2.5 soniyadan keyin avtomatik yo‘q bo‘ladi
+  }, 2000); // 2.5 soniyadan keyin avtomatik yo‘q bo‘ladi
 }
+
+
+
+
+// Sahifa yuklanganda saqlangan so‘zlarni localStorage'dan tiklash
+const storedSaved = localStorage.getItem('savedWords');
+if (storedSaved) {
+  try {
+    savedWords = JSON.parse(storedSaved);
+  } catch (e) {
+    savedWords = [];
+  }
+}
+
+function clearSavedWords() {
+  if (confirm("Barcha saqlangan so‘zlar o‘chib ketadi. Rozimisiz?")) {
+    savedWords = [];
+    localStorage.removeItem('savedWords');
+    renderSavedList();
+    showCustomAlert("🗑️ Saqlanganlar tozalandi");
+  }
+}
+
+
+
+
+//saqlab borish uchun
+
+
+// ✅ 2. Save tugmasi bosilganda so'z saqlanadi va ro'yxat yangilanadi
+document.getElementById('saveButton').addEventListener('click', () => {
+  const savedWord = words[wordOrder[currentIndex]];
+
+  // 🔍 So‘z allaqachon saqlanganmi – tekshiramiz:
+  const alreadySaved = savedWords.some(word =>
+    word.english === savedWord.english && word.translation === savedWord.translation
+  );
+
+  if (alreadySaved) {
+    showCustomAlert(`ℹ️ ${savedWord.english} allaqachon saqlangan.`);
+    return;
+  }
+
+
+  savedWords.push(savedWord);
+  localStorage.setItem('savedWords', JSON.stringify(savedWords));
+  showCustomAlert(`✔️ ${savedWord.english} saqlandi!`);
+  renderSavedList();
+});
+
+function renderSavedList() {
+  const list = document.getElementById('savedWordList');
+  const container = document.getElementById('savedItems');
+
+  // Agar saqlanganlar yo'q bo‘lsa – yashiramiz
+  if (savedWords.length === 0) {
+    list.style.display = 'none';
+    return;
+  }
+
+  list.style.display = 'block';
+  container.innerHTML = '';
+
+  savedWords.slice().reverse().forEach(word => {
+    const card = document.createElement('div');
+    card.className = 'saved-word-card';
+
+    const eng = document.createElement('div');
+    eng.className = 'word-english';
+    eng.textContent = word.english;
+
+    const tr = document.createElement('div');
+    tr.className = 'word-translation';
+    tr.textContent = word.translation;
+
+    card.appendChild(eng);
+    card.appendChild(tr);
+    container.appendChild(card);
+  });
+}
+
+
+
+// ✅ 4. Excel faylga saqlash
+function downloadSavedWords() {
+  if (savedWords.length === 0) {
+    showCustomAlert("❗ Saqlangan so‘zlar yo‘q!");
+    return;
+  }
+  const sheetData = savedWords.map(word => [word.english, word.translation]);
+  const sheet = XLSX.utils.aoa_to_sheet(sheetData);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, sheet, 'Saved Words');
+  XLSX.writeFile(wb, 'SavedVocabulary.xlsx');
+}
+
+// ✅ 5. Asosiy wordList ni saqlanganlarga almashtirish
+function replaceAllWithSaved() {
+  if (savedWords.length === 0) {
+    showCustomAlert("❗ Saqlangan so‘zlar yo‘q!");
+    return;
+  }
+  if (!confirm("Barcha so‘zlar o‘chib, faqat saqlangan so‘zlar qoladi. Rozimisiz?")) return;
+
+  words = [...savedWords];
+  savedWords = [];
+  localStorage.setItem('wordList', JSON.stringify(words));
+  shuffleWords();
+  currentIndex = -1;
+  showNextWord();
+  renderSavedList();
+}
+
+// ✅ 6. Sahifa yuklanganda saqlanganlar qismi mavjud bo‘lsa ko‘rsatish
+window.addEventListener('load', () => {
+  renderSavedList();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ✅ Detect language of the word
 function detectLanguage(text) {
