@@ -26,6 +26,16 @@ function downloadAllWords() {
 }
 
 
+function clearAllWords() {
+  if (!confirm("🚨 Barcha so‘zlarni o‘chirmoqchimisiz? Bu amalni qaytarib bo‘lmaydi!")) return;
+  
+  words = [];
+  saveAllWords();
+  renderWordList();
+  showCustomAlert("❌ Barcha so‘zlar o‘chirildi");
+}
+
+
 
 function showCustomAlert(message) {
   const alertBox = document.getElementById('customAlert');
@@ -103,7 +113,7 @@ function addManualWord() {
   const eng = document.getElementById('manualEnglish').value.trim();
   const trans = document.getElementById('manualTranslation').value.trim();
   if (!eng || !trans) {
-    alert("⚠️ Iltimos, so‘z va tarjimasini kiriting.");
+    showCustomAlert("Iltimos! Barcha maydonlarni to'ldiring!");
     return;
   }
   words.push({ english: eng, translation: trans });
@@ -211,7 +221,7 @@ style.textContent = `
 .edit-button {
   width: 36px;
   height: 36px;
-  background-color: #28a745;
+  background-color: #444444;
   color: white;
   border: none;
   border-radius: 6px;
@@ -223,7 +233,7 @@ style.textContent = `
 }
 
 .edit-button:hover {
-  background-color: #218838;
+  background-color: #666666;
 }
 
 .edit-button svg {

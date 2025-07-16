@@ -9,6 +9,16 @@
   <link rel="stylesheet" href="style3.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD92MWSEF2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-RD92MWSEF2');
+  </script>
+
 </head>
 
 <body>
@@ -25,21 +35,19 @@
 
       <h1>Yangi so'z qo'shish</h1>
       <div class="manual-word-item">
-        <input type="text" class="edit-input" id="manualEnglish" placeholder="English so‘z" />
-        <input type="text" class="edit-input" id="manualTranslation" placeholder="Tarjimasi" />
+        <input type="text" class="edit-input" id="manualEnglish" placeholder="Language" />
+        <input type="text" class="edit-input" id="manualTranslation" placeholder="Translate" />
       </div>
       <button class="button" onclick="addManualWord()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 1024 1024">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 1024 1024">
           <path fill="currentColor"
             d="M512 0C229.232 0 0 229.232 0 512c0 282.784 229.232 512 512 512c282.784 0 512-229.216 512-512C1024 229.232 794.784 0 512 0zm0 961.008c-247.024 0-448-201.984-448-449.01c0-247.024 200.976-448 448-448s448 200.977 448 448s-200.976 449.01-448 449.01zM736 480H544V288c0-17.664-14.336-32-32-32s-32 14.336-32 32v192H288c-17.664 0-32 14.336-32 32s14.336 32 32 32h192v192c0 17.664 14.336 32 32 32s32-14.336 32-32V544h192c17.664 0 32-14.336 32-32s-14.336-32-32-32z" />
         </svg>
       </button>
 
-
-
       <hr>
-      <h3>📋 Barcha so‘zlar: <span id="wordCount">0</span> ta 
-        <button onclick="downloadAllWords()" class="button" style="background-color: #28a745;">
+      <h3>📋 Barcha so‘zlar: <span id="wordCount">0</span> ta
+        <button onclick="downloadAllWords()" class="button">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
             <path fill="currentColor"
               d="M18.22 20.75H5.78A2.64 2.64 0 0 1 3.25 18v-3a.75.75 0 0 1 1.5 0v3a1.16 1.16 0 0 0 1 1.25h12.47a1.16 1.16 0 0 0 1-1.25v-3a.75.75 0 0 1 1.5 0v3a2.64 2.64 0 0 1-2.5 2.75Z" />
@@ -47,6 +55,14 @@
               d="M12 15.75a.74.74 0 0 1-.53-.22l-4-4a.75.75 0 0 1 1.06-1.06L12 13.94l3.47-3.47a.75.75 0 0 1 1.06 1.06l-4 4a.74.74 0 0 1-.53.22Z" />
             <path fill="currentColor" d="M12 15.75a.76.76 0 0 1-.75-.75V4a.75.75 0 0 1 1.5 0v11a.76.76 0 0 1-.75.75Z" />
           </svg></button>
+
+        <button class="button" onclick="clearAllWords()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 14 14">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+              d="M1 3.5h12m-10.5 0h9v9a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1zm2 0V3a2.5 2.5 0 1 1 5 0v.5m-4 3.001v4.002m3-4.002v4.002" />
+          </svg>
+        </button>
+
       </h3>
       <div id="wordListContainer"></div>
 
