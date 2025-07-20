@@ -1,5 +1,17 @@
 let words = [];
 
+function showNavbar() {
+  document.getElementById('searchNavbar').style.display = 'block';
+  document.getElementById('searchWord').focus();
+}
+
+function hideNavbar() {
+  document.getElementById('searchNavbar').style.display = 'none';
+  document.getElementById('searchWord').value = '';
+  searchAndScroll(); // Qidiruvni tozalash
+}
+
+
 
 
 document.getElementById('manualEnglish').addEventListener('keydown', handleEnterKey);
@@ -28,7 +40,7 @@ function downloadAllWords() {
 
 function clearAllWords() {
   if (!confirm("🚨 Barcha so‘zlarni o‘chirmoqchimisiz? Bu amalni qaytarib bo‘lmaydi!")) return;
-  
+
   words = [];
   saveAllWords();
   renderWordList();
@@ -90,7 +102,7 @@ function handleFile(event) {
   };
 
   reader.readAsArrayBuffer(file);
-  
+
 }
 
 
@@ -132,7 +144,7 @@ function renderWordList() {
   const container = document.getElementById('wordListContainer');
   container.innerHTML = '';
 
-    // ✅ Bu yerda so‘zlar sonini yangilaymiz
+  // ✅ Bu yerda so‘zlar sonini yangilaymiz
   document.getElementById('wordCount').textContent = words.length;
 
   [...words].reverse().forEach((word, i) => {
@@ -144,9 +156,29 @@ function renderWordList() {
     inputEng.value = word.english;
     inputEng.className = 'edit-input';
 
+
     const inputTrans = document.createElement('input');
     inputTrans.value = word.translation;
     inputTrans.className = 'edit-input';
+
+    inputEng.addEventListener('focus', () => {
+      inputEng.focus(); // kursor ishlashi uchun kerak
+      setTimeout(() => {
+        inputEng.setSelectionRange(inputEng.value.length, inputEng.value.length);
+        inputEng.scrollLeft = inputEng.scrollWidth;
+      }, 0);
+    });
+
+    inputTrans.addEventListener('focus', () => {
+      inputTrans.focus(); // kursor ishlashi uchun kerak
+      setTimeout(() => {
+        inputTrans.setSelectionRange(inputTrans.value.length, inputTrans.value.length);
+        inputTrans.scrollLeft = inputTrans.scrollWidth;
+      }, 0);
+    });
+
+
+
 
     const saveBtn = document.createElement('button');
     saveBtn.innerHTML = `
@@ -185,6 +217,7 @@ function renderWordList() {
 
     container.appendChild(div);
   });
+
 }
 
 function saveAllWords() {
@@ -244,3 +277,33 @@ style.textContent = `
 
 `;
 document.head.appendChild(style);
+
+function searchAndScroll() {
+  const query = document.getElementById('searchWord').value.trim().toLowerCase();
+
+  // Avval barcha ajratilganlarni tozalaymiz
+  document.querySelectorAll('.word-item').forEach(el => el.classList.remove('highlight-word'));
+
+  if (!query) return;
+
+  const container = document.getElementById('wordListContainer');
+  const items = container.querySelectorAll('.word-item');
+
+  for (const item of items) {
+    const inputs = item.querySelectorAll('input.edit-input');
+    const eng = inputs[0]?.value.toLowerCase() || '';
+    const tr = inputs[1]?.value.toLowerCase() || '';
+
+    if (eng.includes(query) || tr.includes(query)) {
+      item.classList.add('highlight-word');
+      item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      break;
+    }
+  }
+}
+
+function moveCursorToEnd(input) {
+  const value = input.value;
+  input.focus();
+  input.setSelectionRange(value.length, value.length);
+}

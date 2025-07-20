@@ -17,6 +17,59 @@ body {
   justify-content: center;
 }
 
+.navbar {
+  padding: 0; /* ortiqcha bo‘sh joy yo‘q */
+  margin-bottom: 20px; /* navbardan keyingi element bilan bo‘shliq */
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* input va tugmalar orasida 10px */
+}
+
+.search-bar {
+  flex: 1;
+  min-width: 180px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#wordListContainer {
+  max-height: 40vh; /* yoki kerakli balandlik */
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  
+}
+
+
+.highlight-word {
+  background-color: #fcd914;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+
 .manual-word-item {
   display: flex;
   align-items: center;
@@ -31,6 +84,14 @@ body {
   flex: 1 1 auto;
   min-width: 0;
 }
+
+.edit-input {
+  text-align: left;
+  direction: ltr;
+  caret-color: auto;
+  overflow-x: auto;
+}
+
 
 .manual-word-item .edit-button {
   width: 36px;
@@ -269,9 +330,26 @@ a.button {
 }
 
 
+.button-2 {
+  background: #FF4500;
+  color: white;
+  padding: 10px 80px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+  font-size: 1rem;
+  text-align: center;
+  /* Tugmalar markazlashadi */
+  display: inline-block;
+  text-decoration: none;
+  box-sizing: border-box;
+  /* O‘lchamni to‘liq hisoblash */
+}
 
-
-
+.button-2:hover {
+  background: #f75b40;
+}
 
 
 
