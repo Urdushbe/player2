@@ -17,8 +17,82 @@ body {
   justify-content: center;
 }
 
+
+
+
+h3 {
+  margin-top: 5px;
+}
+
+.change-class {
+  color: #f75b40; /* qizg‘ish pushti */
+  box-shadow: 12px #f75b40;
+  border-radius: 0px 4px 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.change-class__default {
+  vertical-align: middle;
+  margin: 10px;
+}
+
+
+/*  Strelkali error belgi uchun*/
+
+.popup-container {
+  position: relative; /* muhim: popup shunga nisbatan joylashadi */
+  display: inline-block; /* tugma bilan bir qatorda */
+}
+
+
+.popup {
+  width: 150px;
+  margin: 0 auto;
+  position: absolute; /* ← bu fixed Emas! */
+  text-align: center;
+  z-index: 999;
+}
+
+.popup:before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  position: absolute;
+  transform: translateX(-50%) rotate(45deg);
+  bottom: -10px; /* ← pastga tushadi */
+  left: 50%;
+  z-index: 998;
+  box-shadow: 0 1px 14px rgba(0, 0, 0, 0.2);
+}
+
+
+.popup-wrapper {
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  position: relative;
+  z-index: 998;
+  color: red;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1.4;
+  
+}
+
+
+
+
+
+
+
+
+/* Tugashi */
+
 .navbar {
-  padding: 0; /* ortiqcha bo‘sh joy yo‘q */
+  padding: 0;
+  margin-top:50px; /* ortiqcha bo‘sh joy yo‘q */
   margin-bottom: 20px; /* navbardan keyingi element bilan bo‘shliq */
 }
 
@@ -277,6 +351,7 @@ h1 {
   color: #FFA500;
   font-size: 2em;
   margin-bottom: 20px;
+  margin-top: 0;
 }
 
 .text-display {

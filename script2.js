@@ -278,29 +278,82 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-function searchAndScroll() {
+
+/* search funksiyasi uchun */
+let matchedIndexes = [];
+let currentMatchIndex = 0;
+
+function normalize(text) {
+  return text
+    .toLowerCase()
+    .replace(/\s+/g, '') // bo‘sh joylarni olib tashlash
+    .replace(/['‘’`ʻʿ]/g, '') // apostroflarni olib tashlash
+    .replace(/sh/g, 's')
+    .replace(/ch/g, 'c')
+    .replace(/g‘/g, 'g').replace(/ғ/g, 'g') // gʻ ni oddiy g ga
+    .replace(/o‘/g, 'o').replace(/ў/g, 'o') // oʻ ni oddiy o ga
+    .replace(/ə/g, 'a')
+    .replace(/ä/g, 'a')
+    .replace(/ü/g, 'u')
+    .replace(/ö/g, 'o');
+}
+
+
+function searchAndScroll(goToNext = false) {
   const query = document.getElementById('searchWord').value.trim().toLowerCase();
 
-  // Avval barcha ajratilganlarni tozalaymiz
-  document.querySelectorAll('.word-item').forEach(el => el.classList.remove('highlight-word'));
+  const items = document.querySelectorAll('.word-item');
+
+  // Tozalash
+  items.forEach(item => item.classList.remove('highlight-word'));
+  matchedIndexes = [];
 
   if (!query) return;
 
-  const container = document.getElementById('wordListContainer');
-  const items = container.querySelectorAll('.word-item');
-
-  for (const item of items) {
+  // Mos keladiganlarni topish
+  items.forEach((item, i) => {
     const inputs = item.querySelectorAll('input.edit-input');
-    const eng = inputs[0]?.value.toLowerCase() || '';
-    const tr = inputs[1]?.value.toLowerCase() || '';
+    const eng = inputs[0]?.value || '';
+    const tr = inputs[1]?.value || '';
 
-    if (eng.includes(query) || tr.includes(query)) {
+    if (normalize(eng).includes(normalize(query)) || normalize(tr).includes(normalize(query))) {
       item.classList.add('highlight-word');
       item.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      break;
     }
+
+
+    if (eng.includes(query) || tr.includes(query)) {
+      matchedIndexes.push(i);
+    }
+  });
+
+  if (matchedIndexes.length === 0) return;
+
+  // Keyingisiga o'tish
+  if (goToNext) {
+    currentMatchIndex = (currentMatchIndex + 1) % matchedIndexes.length;
+  } else {
+    currentMatchIndex = 0;
   }
+
+  const target = items[matchedIndexes[currentMatchIndex]];
+  target.classList.add('highlight-word');
+  const scrollOffset = 80; // Navbar balandligiga qarab sozlang
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  setTimeout(() => {
+    window.scrollBy(0, -scrollOffset);
+  }, 300);
 }
+
+document.getElementById('searchWord').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') {
+    searchAndScroll(true); // keyingi topilmani ko‘rsat
+  }
+});
+
+/* tugashi */
+
 
 function moveCursorToEnd(input) {
   const value = input.value;

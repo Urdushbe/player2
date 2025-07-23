@@ -6,6 +6,8 @@ let wordOrder = [];
 let lastSpeakSuccess = true;
 let warnedLanguages = new Set(); // ✅ globalda
 let voicesLoaded = false;
+let readTranslationInstead = localStorage.getItem('readTranslationInstead') === 'true';
+
 
 
 
@@ -70,12 +72,9 @@ function shuffleWords() {
 
 function showNextWord() {
   if (words.length === 0) {
-    showCustomAlert('⛔ So‘zlar mavjud emas! Excel faylni yuklang');
-    document.getElementById('excel1')?.scrollIntoView({ behavior: 'smooth' });
+    showPopupRelativeTo('edit', 'popupMessage');
     return;
   }
-
-
 
   currentIndex++;
   if (currentIndex >= wordOrder.length) {
@@ -85,24 +84,63 @@ function showNextWord() {
   }
 
   displayWord();
-  speakWord(words[wordOrder[currentIndex]].english);
-  updateProgress(); // 👈 YANGI QATOR – bu yerga qo‘shing!
+  if (!readTranslationInstead) {
+    speakWord();
+  }
+  updateProgress();
 }
+
 
 function displayWord() {
   const word = words[wordOrder[currentIndex]];
-  document.getElementById('englishWord').textContent = word.english;
-  document.getElementById('translation').textContent = word.translation;
+
+  const engEl = document.getElementById('englishWord');
+  const trEl = document.getElementById('translation');
+
+  if (readTranslationInstead) {
+    engEl.textContent = word.translation;
+    trEl.textContent = word.english;
+  } else {
+    engEl.textContent = word.english;
+    trEl.textContent = word.translation;
+  }
 }
 
 
 
+// Sahifa yuklanganda localStorage dan sozlamani olish
+let autoLangDetect = localStorage.getItem('autoLangDetect') !== 'false'; // default true
+
+// checkbox ni bosganda til aniqlashni yoqib/o‘chirish
+function setupLangDetectionToggle() {
+  const toggle = document.getElementById('langDetectToggle');
+  if (!toggle) return;
+
+  // localStorage'dagi qiymat asosida checkbox holatini sozlaymiz
+  toggle.checked = autoLangDetect;
+
+  toggle.addEventListener('change', () => {
+    autoLangDetect = toggle.checked;
+    localStorage.setItem('autoLangDetect', autoLangDetect);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', setupLangDetectionToggle);
 
 
-function speakWord(text) {
-  if (!voicesLoaded || voices.length === 0) {
-    return;
+
+
+
+function speakWord(text = null) {
+  if (!voicesLoaded || voices.length === 0) return;
+
+  const wordObj = words[wordOrder[currentIndex]];
+  if (!wordObj) return;
+
+  if (!text) {
+    text = readTranslationInstead ? wordObj.translation : wordObj.english;
   }
+
   const utterance = new SpeechSynthesisUtterance(text);
   const rate = parseFloat(document.getElementById('rateRange').value);
   utterance.rate = rate;
@@ -110,7 +148,7 @@ function speakWord(text) {
   const voiceSelect = document.getElementById('voiceSelect');
   const selectedIndex = voiceSelect.value;
 
-  const langCode = detectLanguage(text);
+  const langCode = autoLangDetect ? detectLanguage(text) : voices[selectedIndex]?.lang?.slice(0, 2) || 'en';
 
   if (voices[selectedIndex]) {
     const selectedVoice = voices[selectedIndex];
@@ -123,18 +161,14 @@ function speakWord(text) {
       if (matchedVoices.length > 0) {
         utterance.voice = matchedVoices[0];
         utterance.lang = matchedVoices[0].lang;
-
-        // ✅ Tanlangan ovozni select oynasida ham yangilaymiz:
         voiceSelect.value = voices.indexOf(matchedVoices[0]);
-        localStorage.setItem('selectedVoiceIndex', voiceSelect.value); // 👈 qo‘shing
+        localStorage.setItem('selectedVoiceIndex', voiceSelect.value);
       } else {
         utterance.lang = langCode;
-
         if (!warnedLanguages.has(langCode)) {
           showCustomAlert("⛔ Qurilmada ushbu til uchun maxsus ovoz topilmadi. Tuzatish uchun pastdagi yo'riqnomani o'qing!");
           warnedLanguages.add(langCode);
         }
-
         lastSpeakSuccess = false;
         return;
       }
@@ -144,19 +178,14 @@ function speakWord(text) {
     if (matchedVoices.length > 0) {
       utterance.voice = matchedVoices[0];
       utterance.lang = matchedVoices[0].lang;
-
-      // ✅ Foydalanuvchi hech nima tanlamagan bo‘lsa ham tanlangan ovoz selectda ko‘rsatiladi:
       voiceSelect.value = voices.indexOf(matchedVoices[0]);
-      localStorage.setItem('selectedVoiceIndex', voiceSelect.value); // 👈 qo‘shing
-
+      localStorage.setItem('selectedVoiceIndex', voiceSelect.value);
     } else {
       utterance.lang = langCode;
-
       if (!warnedLanguages.has(langCode)) {
         showCustomAlert("⛔ Qurilmada ushbu til uchun maxsus ovoz topilmadi. Tuzatish uchun pastdagi yo'riqnomani o'qing!");
         warnedLanguages.add(langCode);
       }
-
       lastSpeakSuccess = false;
       return;
     }
@@ -173,16 +202,67 @@ function speakWord(text) {
 
 
 
+// Strelkali error belgi uchun
+function showPopupRelativeTo(targetId, popupId) {
+  const target = document.getElementById(targetId);
+  const popup = document.getElementById(popupId);
+
+  if (!target || !popup) return;
+
+  popup.style.display = 'block';
+  popup.style.visibility = 'hidden';
+
+  const rect = target.getBoundingClientRect();
+  const popupWidth = popup.offsetWidth;
+  const popupHeight = popup.offsetHeight;
+
+  const left = rect.left + window.scrollX + (rect.width / 2) - (popupWidth / 2);
+  const top = rect.top + window.scrollY - popupHeight - 30; // elementdan yuqoriga 10px
+
+  popup.style.left = `${left}px`;
+  popup.style.top = `${top}px`;
+  popup.style.visibility = 'visible';
+
+  setTimeout(() => {
+    popup.style.display = 'none';
+  }, 8000); // 2.5 soniyadan keyin avtomatik yo‘q bo‘ladi
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// tugadi
 
 
 
 document.getElementById('nextButton').addEventListener('click', showNextWord);
-document.getElementById('prevButton').addEventListener('click', () => speakWord(words[wordOrder[currentIndex]].english));
+document.getElementById('prevButton').addEventListener('click', () => {
+  if (words.length === 0) {
+    showPopupRelativeTo('edit', 'popupMessage');
+    return;
+  }
+
+  if (!readTranslationInstead) {
+    speakWord();
+  }
+});
+
 document.addEventListener('contextmenu', function (e) {
   if (e.target.id === 'prevButton' || e.target.id === 'nextButton') {
 
     e.preventDefault();
-    speakWord(words[wordOrder[currentIndex]].english);
+    if (!readTranslationInstead) {
+      speakWord();
+    }
   }
 });
 
@@ -192,16 +272,17 @@ function toggleBlur() {
   const text = document.getElementById("translation");
   const icon = document.getElementById("eye-icon");
 
-  if (text.classList.contains("blurred")) {
-    text.classList.remove("blurred");
-    icon.classList.remove("bi-eye-slash-fill");
-    icon.classList.add("bi-eye-fill");
-  } else {
-    text.classList.add("blurred");
+  const isBlurred = text.classList.toggle("blurred");
+
+  if (isBlurred) {
     icon.classList.remove("bi-eye-fill");
     icon.classList.add("bi-eye-slash-fill");
+  } else {
+    icon.classList.remove("bi-eye-slash-fill");
+    icon.classList.add("bi-eye-fill");
   }
 }
+
 
 function populateVoiceList() {
   voices = speechSynthesis.getVoices();
@@ -241,7 +322,9 @@ document.getElementById('voiceSelect').addEventListener('change', (e) => {
 
   // 🔊 Hozirgi so‘zni ovoz bilan qayta eshittirish
   if (words.length > 0 && currentIndex >= 0) {
-    speakWord(words[wordOrder[currentIndex]].english);
+    if (!readTranslationInstead) {
+      speakWord();
+    }
   }
 });
 
@@ -279,6 +362,11 @@ window.addEventListener('load', () => {
     autoDelay = parseInt(savedDelay) * 1000;
   }
 
+  const savedLangMode = localStorage.getItem('readTranslationInstead');
+  if (savedLangMode === 'true') {
+    readTranslationInstead = true;
+    const btn = document.getElementById('toggleLanguageButton');
+  }
 
   // 👉 Wake Lock chaqiruvi shu yerda:
   requestWakeLock();
@@ -295,10 +383,17 @@ function toggleAutoNext() {
   if (autoNextEnabled) {
 
     if (words.length === 0) {
+      showPopupRelativeTo('edit', 'popupMessage');
+      return;
+    }
+    /*
+    if (words.length === 0) {
       showCustomAlert('⛔ So‘zlar mavjud emas! Excel faylni yuklang');
       document.getElementById('excel1')?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
+
+    */
 
     button.textContent = '⏸️';
     autoNextInterval = setInterval(() => {
@@ -349,20 +444,22 @@ function updateProgress() {
 
 function showPreviousWord() {
   if (words.length === 0) {
-    document.getElementById('excel1')?.scrollIntoView({ behavior: 'smooth' });
-    showCustomAlert("⛔ So'zlar mavjud emas! Excel faylni yuklang");
+    showPopupRelativeTo('edit', 'popupMessage');
     return;
   }
 
   if (currentIndex > 0) {
     currentIndex--;
     displayWord();
-    speakWord(words[wordOrder[currentIndex]].english);
+    if (!readTranslationInstead) {
+      speakWord();
+    }
     updateProgress();
   } else {
     showCustomAlert("⛔ Siz birinchi so‘zdasiz.");
   }
 }
+
 document.getElementById('backButton').addEventListener('click', showPreviousWord);
 
 
@@ -406,6 +503,10 @@ function clearSavedWords() {
 
 // ✅ 2. Save tugmasi bosilganda so'z saqlanadi va ro'yxat yangilanadi
 document.getElementById('saveButton').addEventListener('click', () => {
+  if (words.length === 0) {
+    showPopupRelativeTo('edit', 'popupMessage');
+    return;
+  }
   const savedWord = words[wordOrder[currentIndex]];
 
   // 🔍 So‘z allaqachon saqlanganmi – tekshiramiz:
@@ -491,6 +592,29 @@ function replaceAllWithSaved() {
 // ✅ 6. Sahifa yuklanganda saqlanganlar qismi mavjud bo‘lsa ko‘rsatish
 window.addEventListener('load', () => {
   renderSavedList();
+});
+
+
+document.getElementById('toggleLanguageButton').addEventListener('click', () => {
+  readTranslationInstead = !readTranslationInstead;
+  localStorage.setItem('readTranslationInstead', readTranslationInstead);
+
+  const btn = document.getElementById('toggleLanguageButton');
+  btn.classList.toggle('change-class');
+
+  if (readTranslationInstead) {
+    showCustomAlert("Bu holatda ovoz chiqmaydi. Bu faqat yodlash uchun!");
+  }
+
+  // Sahifadagi matnni yangilaymiz
+  if (words.length > 0 && currentIndex >= 0) {
+    displayWord();
+
+    // ✅ faqat inglizcha rejimda ovoz ishlaydi
+    if (!readTranslationInstead) {
+      speakWord();
+    }
+  }
 });
 
 

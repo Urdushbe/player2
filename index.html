@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google" content="notranslate">
-  <title>Smart Player</title>
+  <title>Bilim App</title>
   <link rel="stylesheet" href="style3.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
@@ -23,17 +23,35 @@
 
 <body>
   <span id="home"></span>
+  <!-- Popup oynacha -->
+  <!-- Parent konteyner -->
+  <div class="popup-container">
+    <div id="popupMessage" class="popup arrow-top" style="display: none;">
+      <div class="popup-wrapper">
+        <p>So'z mavjud emas!<br> Bu yerdan so'z qo'shing</p>
+      </div>
+    </div>
+  </div>
+
+
+
+
   <div id="customAlert" class="custom-alert">⛔ Alert uchun</div>
   <div class="scale-wrapper pad10">
     <div class="container">
-      <h1>Smart Player</h1>
+      <h1>Bilim.App</h1>
 
       <div class="text-display" id="textDisplay">
-        <p id="englishWord" style="font-size: 24px; font-weight: bold;">Language</p><br>
-        <p id="translation" style="color: #c7c7c7; font-size: 20px;">Translation</p>
-        <i id="eye-icon" style="font-size: 25px; color: #AAAAAA;" class="bi bi-eye-slash-fill icon"
-          onclick="toggleBlur()"></i>
+        <p id="englishWord" style="font-size: 24px; font-weight: bold;">So'z</p><br>
+        <p id="translation" style="color: #c7c7c7; font-size: 20px;">Tarjimasi</p>
+        <i id="eye-icon" style="font-size: 25px; color: #AAAAAA;" class="bi-eye-fill change-class__default icon"
+          onclick="toggleBlur()"></i> <svg class="change-class__default" id="toggleLanguageButton"
+          xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
+          <path fill="currentColor"
+            d="M12.825 15.783q-.975.005-1.907-.209q-.931-.214-1.605-.887q-.538-.539-.83-1.231q-.29-.693-.29-1.45q0-.327.044-.622q.044-.296.157-.597q.062-.185-.012-.36t-.234-.242q-.165-.068-.337.01t-.234.26q-.125.376-.197.76q-.072.385-.072.785q0 .942.358 1.797q.359.855 1.02 1.516q.772.797 1.848 1.075q1.076.28 2.185.285l-.963.964q-.13.128-.139.303q-.01.175.139.323q.148.149.313.149q.166 0 .314-.149l1.523-1.523q.242-.242.242-.565q0-.323-.242-.565l-1.523-1.523q-.13-.13-.304-.139q-.175-.01-.323.139q-.148.148-.148.313t.148.313l1.069 1.07Zm-1.637-7.571q.975 0 1.91.214q.935.214 1.608.887q.538.539.83 1.231q.29.693.29 1.45q0 .327-.043.622q-.045.296-.158.597q-.062.185.013.363q.074.178.233.245q.166.067.338 0q.172-.067.233-.252q.125-.375.197-.772q.073-.397.073-.797q0-.942-.353-1.797t-1.02-1.522q-.777-.796-1.853-1.072T11.3 7.333l.97-.97q.122-.128.132-.303q.01-.175-.139-.323q-.148-.149-.313-.149t-.313.149L10.113 7.26q-.242.242-.242.565q0 .323.242.565l1.524 1.523q.128.13.303.139q.175.01.323-.139q.149-.148.149-.313t-.149-.313l-1.075-1.075ZM12 21q-1.863 0-3.506-.71t-2.857-1.927Q4.42 17.148 3.71 15.506Q3 13.863 3 12t.71-3.506q.711-1.642 1.927-2.857Q6.852 4.42 8.494 3.71Q10.137 3 12 3t3.506.71q1.642.711 2.857 1.927q1.216 1.215 1.926 2.857Q21 10.137 21 12t-.71 3.506q-.711 1.642-1.927 2.857q-1.215 1.216-2.857 1.926Q13.863 21 12 21Zm0-1q3.35 0 5.675-2.325T20 12q0-3.35-2.325-5.675T12 4Q8.65 4 6.325 6.325T4 12q0 3.35 2.325 5.675T12 20Zm0-8Z" />
+        </svg>
       </div>
+
 
 
       <input type="range" id="wordProgress" min="0" max="100" value="0">
@@ -98,7 +116,7 @@
 
       <hr>
 
-      <a href="edit.html" class="button">
+      <a id="edit" href="edit.html" class="button">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
           <g fill="none" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round"
@@ -178,8 +196,30 @@
 
   <div class="scale-wrapper pad10">
     <div class="container">
+
+
+
       <h2 for="voiceSelect">🔊 Ovoz tilini tanlash:</h2>
-      <select id="voiceSelect"></select><br><br>
+      <select id="voiceSelect"></select>
+      <br>
+      <h4>Ovozni avtomatik tanlash</h4>
+      <div class="container-player">
+        <label class="switch">
+          <input type="checkbox" id="langDetectToggle" />
+          <span class="slider">
+            <span class="ball">
+              <span class="icon">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" width="25"
+                  height="25" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 18V6l8 6-8 6Z"></path>
+                </svg>
+              </span>
+            </span>
+          </span>
+        </label>
+      </div>
+      
 
       <h2 for="autoDelayRange">⏱️ Avto o‘qish oralig‘i (5):</h2>
       <input type="range" id="autoDelayRange" min="2" max="15" step="1" value="5">
@@ -194,19 +234,16 @@
 
       <br><br>
       <a href="#home" class="button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 16 16">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 16 16">
           <path fill="currentColor" d="M8 1.4L6 2.7V1H4v3L0 6.6l.6.8L8 2.6l7.4 4.8l.6-.8z" />
           <path fill="currentColor" d="M8 4L2 8v7h5v-3h2v3h5V8z" />
         </svg>
       </a>
 
       <a href="#help" class="button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 14 14">
-          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6.998.552a6.448 6.448 0 0 0-5.367 10.02L.55 13.447l3.62-.655A6.448 6.448 0 1 0 6.999.552Z" />
-            <path
-              d="M5.51 5.512A1.488 1.488 0 1 1 6.998 7v.992M7 10.472a.248.248 0 0 1 0-.496m0 .496a.248.248 0 1 0 0-.496" />
-          </g>
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 512 512">
+          <path fill="currentColor" fill-rule="evenodd"
+            d="M256 42.667C138.18 42.667 42.667 138.179 42.667 256c0 117.82 95.513 213.334 213.333 213.334c117.822 0 213.334-95.513 213.334-213.334S373.822 42.667 256 42.667m0 384c-94.105 0-170.666-76.561-170.666-170.667S161.894 85.334 256 85.334c94.107 0 170.667 76.56 170.667 170.666S350.107 426.667 256 426.667m26.714-256c0 15.468-11.262 26.667-26.497 26.667c-15.851 0-26.837-11.2-26.837-26.963c0-15.15 11.283-26.37 26.837-26.37c15.235 0 26.497 11.22 26.497 26.666m-48 64h42.666v128h-42.666z" />
         </svg>
         Yordam bo'limi
       </a>
