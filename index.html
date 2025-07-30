@@ -198,41 +198,42 @@
     <div class="container">
 
 
-
-      <h2 for="voiceSelect">🔊 Ovoz tilini tanlash:</h2>
-      <select id="voiceSelect"></select>
-      <br>
-      <h4>Ovozni avtomatik tanlash</h4>
-      <div class="container-player">
-        <label class="switch">
-          <input type="checkbox" id="langDetectToggle" />
-          <span class="slider">
-            <span class="ball">
-              <span class="icon">
-                <svg class="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" width="25"
-                  height="25" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M8 18V6l8 6-8 6Z"></path>
-                </svg>
+      <div class="setting-display">
+        <h2 for="voiceSelect">🔊 Ovoz tilini tanlash:</h2>
+        <select id="voiceSelect"></select>
+        <br>
+        <h2>Avtomatik tanlash</h2>
+        <div class="container-player">
+          <label class="switch">
+            <input type="checkbox" id="langDetectToggle" />
+            <span class="slider">
+              <span class="ball">
+                <span class="icon">
+                  <svg class="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" width="25"
+                    height="25" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M8 18V6l8 6-8 6Z"></path>
+                  </svg>
+                </span>
               </span>
             </span>
-          </span>
-        </label>
+          </label>
+        </div>
       </div>
+
+      <div class="setting-display">
+        <h2 for="autoDelayRange">⏱️ Avto o‘qish oralig‘i (5):</h2>
+        <input type="range" id="autoDelayRange" min="2" max="15" step="1" value="5">
+        <span id="autoDelayValue">5</span>
+      </div>
+      <div class="setting-display">
+        <h2 for="rateRange">⚙️ Ovoz tezligi (1):</h2>
+        <input type="range" id="rateRange" min="0.5" max="1.5" step="0.1" value="1">
+        <span id="rateValue">1</span>
+      </div>
+
+
       
-
-      <h2 for="autoDelayRange">⏱️ Avto o‘qish oralig‘i (5):</h2>
-      <input type="range" id="autoDelayRange" min="2" max="15" step="1" value="5">
-      <span id="autoDelayValue">5</span>
-
-
-      <h2 for="rateRange">⚙️ Ovoz tezligi (1):</h2>
-      <input type="range" id="rateRange" min="0.5" max="1.5" step="0.1" value="1">
-      <span id="rateValue">1</span>
-
-
-
-      <br><br>
       <a href="#home" class="button">
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 16 16">
           <path fill="currentColor" d="M8 1.4L6 2.7V1H4v3L0 6.6l.6.8L8 2.6l7.4 4.8l.6-.8z" />

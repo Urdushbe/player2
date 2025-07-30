@@ -362,11 +362,7 @@ window.addEventListener('load', () => {
     autoDelay = parseInt(savedDelay) * 1000;
   }
 
-  const savedLangMode = localStorage.getItem('readTranslationInstead');
-  if (savedLangMode === 'true') {
-    readTranslationInstead = true;
-    const btn = document.getElementById('toggleLanguageButton');
-  }
+
 
   // 👉 Wake Lock chaqiruvi shu yerda:
   requestWakeLock();
@@ -597,7 +593,7 @@ window.addEventListener('load', () => {
 
 document.getElementById('toggleLanguageButton').addEventListener('click', () => {
   readTranslationInstead = !readTranslationInstead;
-  localStorage.setItem('readTranslationInstead', readTranslationInstead);
+
 
   const btn = document.getElementById('toggleLanguageButton');
   btn.classList.toggle('change-class');
