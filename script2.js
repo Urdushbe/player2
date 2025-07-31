@@ -228,55 +228,7 @@ function saveAllWords() {
   }
 }
 
-// === Style qo‘shish ===
-const style = document.createElement('style');
-style.textContent = `
-.word-item {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap; /* ❗ Hech qachon pastga tushmasin */
-  gap: 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  overflow-x: auto;
-}
 
-.edit-input {
-  flex: 1 1 auto;
-  min-width: 0; /* ✅ Sozlangan! input siqilsa ham */
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
-.edit-button {
-  width: 36px;
-  height: 36px;
-  background-color: #444444;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s ease;
-}
-
-.edit-button:hover {
-  background-color: #666666;
-}
-
-.edit-button svg {
-  width: 18px;
-  height: 18px;
-  pointer-events: none;
-}
-
-`;
-document.head.appendChild(style);
 
 
 /* search funksiyasi uchun */

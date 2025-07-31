@@ -24,8 +24,11 @@ h3 {
   margin-top: 5px;
 }
 
+
+
+
 .change-class {
-  color: #f75b40; /* qizg‘ish pushti */
+  color: #f75b40 !important;
   box-shadow: 12px #f75b40;
   border-radius: 0px 4px 12px;
   transition: all 0.3s ease;
@@ -33,23 +36,28 @@ h3 {
 }
 
 .change-class__default {
+  color: #AAAAAA;
   vertical-align: middle;
   margin: 10px;
+
 }
 
 
 /*  Strelkali error belgi uchun*/
 
 .popup-container {
-  position: relative; /* muhim: popup shunga nisbatan joylashadi */
-  display: inline-block; /* tugma bilan bir qatorda */
+  position: relative;
+  /* muhim: popup shunga nisbatan joylashadi */
+  display: inline-block;
+  /* tugma bilan bir qatorda */
 }
 
 
 .popup {
   width: 150px;
   margin: 0 auto;
-  position: absolute; /* ← bu fixed Emas! */
+  position: absolute;
+  /* ← bu fixed Emas! */
   text-align: center;
   z-index: 999;
 }
@@ -61,7 +69,8 @@ h3 {
   background: #fff;
   position: absolute;
   transform: translateX(-50%) rotate(45deg);
-  bottom: -10px; /* ← pastga tushadi */
+  bottom: -10px;
+  /* ← pastga tushadi */
   left: 50%;
   z-index: 998;
   box-shadow: 0 1px 14px rgba(0, 0, 0, 0.2);
@@ -78,7 +87,7 @@ h3 {
   font-weight: bold;
   font-size: 16px;
   line-height: 1.4;
-  
+
 }
 
 
@@ -92,14 +101,17 @@ h3 {
 
 .navbar {
   padding: 0;
-  margin-top:50px; /* ortiqcha bo‘sh joy yo‘q */
-  margin-bottom: 20px; /* navbardan keyingi element bilan bo‘shliq */
+  margin-top: 50px;
+  /* ortiqcha bo‘sh joy yo‘q */
+  margin-bottom: 20px;
+  /* navbardan keyingi element bilan bo‘shliq */
 }
 
 .navbar-inner {
   display: flex;
   align-items: center;
-  gap: 10px; /* input va tugmalar orasida 10px */
+  gap: 10px;
+  /* input va tugmalar orasida 10px */
 }
 
 .search-bar {
@@ -124,7 +136,8 @@ h3 {
 .word-item {
   display: flex;
   align-items: center;
-  flex-wrap: nowrap; /* ❗ Hech qachon pastga tushmasin */
+  flex-wrap: nowrap;
+  /* ❗ Hech qachon pastga tushmasin */
   gap: 10px;
   margin-bottom: 10px;
   width: 100%;
@@ -133,7 +146,8 @@ h3 {
 
 .edit-input {
   flex: 1 1 auto;
-  min-width: 0; /* ✅ Sozlangan! input siqilsa ham */
+  min-width: 0;
+  /* ✅ Sozlangan! input siqilsa ham */
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
@@ -154,7 +168,7 @@ h3 {
   justify-content: center;
 
 }
-   
+
 
 .edit-button:hover {
   background-color: #666666;
@@ -175,10 +189,11 @@ h3 {
 
 
 #wordListContainer {
-  max-height: 40vh; /* yoki kerakli balandlik */
+  max-height: 40vh;
+  /* yoki kerakli balandlik */
   overflow-y: auto;
   scroll-behavior: smooth;
-  
+
 }
 
 
@@ -721,4 +736,45 @@ a.button {
   .container {
     padding: 0 10px;
   }
+}
+
+
+
+/* Footer */
+
+#siteFooter {
+  background-color: #202020;
+  color: white;
+  padding: 30px 15px;
+  text-align: center;
+  font-size: 14px;
+  border-top: 1px solid #444;
+  margin-top: 50px;
+}
+
+.footer-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.footer-text {
+  margin-bottom: 12px;
+  opacity: 0.8;
+}
+
+.footer-links a {
+  color: #f0f0f0;
+  text-decoration: none;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #f75b40;
 }
