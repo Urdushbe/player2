@@ -1,13 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google" content="notranslate">
-  <title>Smart Player</title>
+  <title>Bilim App</title>
   <link rel="stylesheet" href="style3.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="favicon.ico">
+  <!-- Sayt haqida qisqa tavsif (SEO uchun) -->
+  <meta name="description"
+    content="Inglizcha-Uzbekcha Koreyscha-Uzbekcha lug'at, so'z yodlash va test mashqlari bilan samarali o'rganish platformasi.">
+  <!-- Qidiruv kalit so'zlar (hozir uncha muhim emas, lekin ba'zida foydali) -->
+  <meta name="keywords" content="lug'at, inglizcha, uzbekcha, koreyscha, so'z yodlash, vocabulary, dictionary">
+  <!-- Muallif haqida -->
+  <meta name="author" content="Kuysinboev Urdushbek Developer">
+
+  <meta property="og:title" content="Bilim App - Lug'at Yodlash">
+  <meta property="og:description" content="So'z yodlash, til o'rganishni osonlashtiruvchi platforma.">
+  <meta property="og:image" content="https://bilim.app/favicon.ico">
+  <meta property="og:url" content="https://bilim.app">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD92MWSEF2"></script>
@@ -29,8 +46,8 @@
 
 
 
-      
-    <h3>Yangi so'z qo'shish</h3>
+
+      <h3>Yangi so'z qo'shish</h3>
       <div class="manual-word-item">
         <input type="text" class="edit-input" id="manualEnglish" placeholder="So'z" />
         <input type="text" class="edit-input" id="manualTranslation" placeholder="Tarjimasi" />
@@ -88,23 +105,24 @@
 
 
       <div id="wordListContainer"></div><br>
-   <a href="index.html" class="button">
-  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 16 16">
-    <path fill="currentColor" d="M8 1.4L6 2.7V1H4v3L0 6.6l.6.8L8 2.6l7.4 4.8l.6-.8z"/>
-    <path fill="currentColor" d="M8 4L2 8v7h5v-3h2v3h5V8z"/>
-  </svg>
-</a>
+      <a href="index.html" class="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 16 16">
+          <path fill="currentColor" d="M8 1.4L6 2.7V1H4v3L0 6.6l.6.8L8 2.6l7.4 4.8l.6-.8z" />
+          <path fill="currentColor" d="M8 4L2 8v7h5v-3h2v3h5V8z" />
+        </svg>
+      </a>
 
-<!-- Fayl yuklash tugmasi aslida label bo‘ladi -->
-<label for="fileInput" class="button">
-  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
-    <path fill="currentColor" d="M4 19h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7Zm9-10v7h-2V9H6l6-6l6 6h-5Z"/>
-  </svg>
-  Excel fayl yuklash
-</label>
+      <!-- Fayl yuklash tugmasi aslida label bo‘ladi -->
+      <label for="fileInput" class="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
+          <path fill="currentColor"
+            d="M4 19h16v-7h2v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-8h2v7Zm9-10v7h-2V9H6l6-6l6 6h-5Z" />
+        </svg>
+        Excel fayl yuklash
+      </label>
 
-<!-- Inputni yashirib qo‘yamiz, faqat label orqali chaqiriladi -->
-<input type="file" id="fileInput" accept=".xlsx" style="display: none;">
+      <!-- Inputni yashirib qo‘yamiz, faqat label orqali chaqiriladi -->
+      <input type="file" id="fileInput" accept=".xlsx" style="display: none;">
 
     </div>
   </div>
