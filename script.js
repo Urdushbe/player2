@@ -227,21 +227,7 @@ function showPopupRelativeTo(targetId, popupId) {
     popup.style.display = 'none';
   }, 8000); // 2.5 soniyadan keyin avtomatik yo‘q bo‘ladi
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 // tugadi
-
 
 
 document.getElementById('nextButton').addEventListener('click', showNextWord);
@@ -396,7 +382,7 @@ function toggleAutoNext() {
       showNextWord();
     }, autoDelay);
 
-    requestWakeLock(); // <<< 👈 bu yerga joylashtiring
+    requestWakeLock();
     showCustomAlert(`So'zlar har ${autoDelay / 1000} sekundda avtomatik o'qiladi`);
   } else {
     button.textContent = '▶️';
@@ -613,21 +599,6 @@ document.getElementById('toggleLanguageButton').addEventListener('click', () => 
   }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ✅ Detect language of the word
 function detectLanguage(text) {
   if (/[А-Яа-яЁёЀ-ӿ]/.test(text)) return 'ru';          // Rus
@@ -642,3 +613,61 @@ function detectLanguage(text) {
   if (/[çğıİşöüâ]/i.test(text)) return 'tr';             // Turk
   return 'en'; // Default
 }
+
+
+
+
+
+// 🎹 Klaviatura tugmalari boshqaruvi + hover effekti
+document.addEventListener('keydown', function (e) {
+  const tag = e.target.tagName.toLowerCase();
+  if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
+
+  // hover effekti beruvchi yordamchi funksiya
+  function flashButton(id) {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.classList.add('keyboard-hover');
+    setTimeout(() => btn.classList.remove('keyboard-hover'), 200);
+  }
+
+  switch (e.code) {
+    case 'ArrowRight':
+      e.preventDefault(); // sahifa scroll bo‘lmasin
+      showNextWord();
+      flashButton('nextButton');
+      break;
+
+    case 'ArrowLeft':
+      showPreviousWord();
+      flashButton('backButton');
+      break;
+
+    case 'Space':
+      e.preventDefault();
+      document.getElementById('autoToggleButton').click();
+      break;
+
+    case 'ArrowDown':
+      e.preventDefault(); // sahifa scroll bo‘lmasin
+      document.getElementById('saveButton').click();
+      flashButton('saveButton');
+      break;
+
+    case 'KeyB':
+      document.getElementById('backButton').click();
+      flashButton('backButton');
+      break;
+
+    case 'ArrowUp':
+      e.preventDefault(); // sahifa scroll bo‘lmasin
+      if (!readTranslationInstead) speakWord();
+      flashButton('prevButton'); // qayta eshittirish uchun mos tugmani tanlang
+      break;
+
+    case 'KeyT':
+      document.getElementById('toggleLanguageButton')?.click();
+      flashButton('toggleLanguageButton');
+      break;
+  }
+});
