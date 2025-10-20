@@ -650,7 +650,7 @@ document.addEventListener('keydown', function (e) {
 
     case 'ArrowDown':
       e.preventDefault(); // sahifa scroll bo‘lmasin
-      document.getElementById('saveButton').click();
+      document.getElementById(toggleBlur()).click();
       flashButton('saveButton');
       break;
 
