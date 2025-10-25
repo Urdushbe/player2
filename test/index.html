@@ -6,7 +6,6 @@
   <title>My PWA Website</title>
   <link rel="manifest" href="/manifest.json">
   <style>
-    /* Tugma uchun CSS */
     #add-to-home-btn {
       position: fixed;
       bottom: 20px;
@@ -20,7 +19,6 @@
       cursor: pointer;
       z-index: 1000;
     }
-
     #add-to-home-btn:hover {
       background-color: #45a049;
     }
@@ -29,14 +27,11 @@
 <body>
   <h1>Welcome to My PWA Website</h1>
   <button id="add-to-home-btn" style="display: none;">Add to Home Screen</button>
-  <button id="add-to-home-btn"></button>Add to Home Screen</button>
-
 
   <script>
     let deferredPrompt;
     const addButton = document.getElementById('add-to-home-btn');
 
-    // Service workerni ro'yxatdan o'tkazish
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
@@ -49,7 +44,6 @@
       });
     }
 
-    // "beforeinstallprompt" hodisasini tinglash
     window.addEventListener('beforeinstallprompt', (e) => {
       deferredPrompt = e;
       addButton.style.display = 'block';
@@ -63,7 +57,7 @@
             console.log('Foydalanuvchi PWA ni qo\'shishni rad etdi');
           }
           deferredPrompt = null;
-          addButton.style.display = 'none';  // Tugmani yashirish
+          addButton.style.display = 'none';
         });
       });
     });
