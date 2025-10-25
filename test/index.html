@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My PWA Website</title>
+  <link rel="manifest" href="/manifest.json">
+  <style>
+    /* Tugma uchun CSS */
+    #add-to-home-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    #add-to-home-btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to My PWA Website</h1>
+  <button id="add-to-home-btn" style="display: none;">Add to Home Screen</button>
+  <button id="add-to-home-btn"></button>Add to Home Screen</button>
+
+
+  <script>
+    let deferredPrompt;
+    const addButton = document.getElementById('add-to-home-btn');
+
+    // Service workerni ro'yxatdan o'tkazish
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then((registration) => {
+            console.log('Service Worker registered with scope: ', registration.scope);
+          })
+          .catch((error) => {
+            console.log('Service Worker registration failed: ', error);
+          });
+      });
+    }
+
+    // "beforeinstallprompt" hodisasini tinglash
+    window.addEventListener('beforeinstallprompt', (e) => {
+      deferredPrompt = e;
+      addButton.style.display = 'block';
+
+      addButton.addEventListener('click', () => {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('Foydalanuvchi PWA ni Home ekraniga qo\'shdi');
+          } else {
+            console.log('Foydalanuvchi PWA ni qo\'shishni rad etdi');
+          }
+          deferredPrompt = null;
+          addButton.style.display = 'none';  // Tugmani yashirish
+        });
+      });
+    });
+  </script>
+</body>
+</html>
